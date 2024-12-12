@@ -1,62 +1,55 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Menu, Dropdown } from 'antd';
-
 import {
   AppstoreOutlined,
   SettingOutlined,
   MailOutlined,
   LogoutOutlined,
   BellOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import photo from '@/style/images/photo.png';
-
 import { logout } from '@/redux/auth/actions';
 import history from '@/utils/history';
 import uniqueId from '@/utils/uinqueId';
+import { request } from '@/request';
 
 export default function HeaderContent() {
   const dispatch = useDispatch();
   const { SubMenu } = Menu;
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const { result, success } = await request.get({ entity: 'admin/profile' });
+        if (success) {
+          setUserData(result);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const profileDropdown = (
     <div className="profileDropdown whiteBox shadow" style={{ minWidth: '200px' }}>
       <div className="pad15">
-        <Avatar size="large" className="last" src={photo} style={{ float: 'left' }} />
+        <Avatar
+          size="large"
+          className="last"
+          src={userData?.photo ? '/' + userData.photo : photo}
+          style={{ float: 'left' }}
+        />
         <div className="info">
-          <p className="strong">LERM</p>
-          <p>support@lerm.7erver.com</p>
+          <p className="strong">
+            {userData ? `${userData.name} ${userData.surname}` : 'Loading...'}
+          </p>
+          <p>{userData?.email || 'Loading...'}</p>
         </div>
-      </div>
-      <div className="line"></div>
-      <div>
-        <Menu>
-          <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
-            <Menu.ItemGroup key="g1" title="Item 1">
-              <Menu.Item key="1">Option 1</Menu.Item>
-              <Menu.Item key="2">Option 2</Menu.Item>
-            </Menu.ItemGroup>
-            <Menu.ItemGroup key="g2" title="Item 2">
-              <Menu.Item key="3">Option 3</Menu.Item>
-              <Menu.Item key="4">Option 4</Menu.Item>
-            </Menu.ItemGroup>
-          </SubMenu>
-          <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Navigation Two">
-            <Menu.Item key="5">Option 5</Menu.Item>
-            <Menu.Item key="6">Option 6</Menu.Item>
-            <SubMenu key="sub3" title="Submenu">
-              <Menu.Item key="7">Option 7</Menu.Item>
-              <Menu.Item key="8">Option 8</Menu.Item>
-            </SubMenu>
-          </SubMenu>
-          <SubMenu key="sub4" icon={<SettingOutlined />} title="Navigation Three">
-            <Menu.Item key="9">Option 9</Menu.Item>
-            <Menu.Item key="10">Option 10</Menu.Item>
-            <Menu.Item key="11">Option 11</Menu.Item>
-            <Menu.Item key="12">Option 12</Menu.Item>
-          </SubMenu>
-        </Menu>
       </div>
       <div className="line"></div>
       <div>
@@ -72,17 +65,17 @@ export default function HeaderContent() {
       </div>
     </div>
   );
+
   return (
     <div className="headerIcon" style={{ position: 'absolute', right: 0, zIndex: '99' }}>
       <Dropdown overlay={profileDropdown} trigger={['click']} placement="bottomRight">
-        {/* <Badge dot> */}
-        <Avatar className="last" src={photo} />
-        {/* </Badge> */}
+        <Avatar
+          style={{ cursor: 'pointer', border: '2px solid #808080' }}
+          className="last"
+          size="large"
+          icon={<UserOutlined />}
+        />
       </Dropdown>
-
-      <Avatar icon={<AppstoreOutlined />} />
-
-      <Avatar icon={<BellOutlined />} />
     </div>
   );
 }

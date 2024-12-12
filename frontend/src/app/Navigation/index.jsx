@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Typography } from 'antd';
 
 import { useAppContext } from '@/context/appContext';
 import logoIcon from '@/style/images/logo-icon.png';
@@ -21,6 +21,7 @@ import {
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
+const { Title } = Typography;
 
 export default function Navigation() {
   const { state: stateApp, appContextAction } = useAppContext();
@@ -46,11 +47,7 @@ export default function Navigation() {
   return (
     <>
       <Sider collapsible collapsed={isNavMenuClose} onCollapse={onCollapse} className="navigation">
-        <div className="logo">
-          {!showLogoApp && (
-            <img src={logoText} alt="Logo" style={{ marginTop: '3px' }} />
-          )}
-        </div>
+        <div className="logo">{!showLogoApp && <Title level={2}>DevFest24</Title>}</div>
         <Menu mode="inline">
           <Menu.Item key={'Dashboard'} icon={<DashboardOutlined />}>
             <Link to={'/'} />
