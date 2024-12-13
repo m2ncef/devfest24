@@ -20,7 +20,7 @@ const orderFormController = require('@/controllers/erpControllers/orderFormContr
 const expenseController = require('@/controllers/erpControllers/expenseController');
 const expenseCategoryController = require('@/controllers/erpControllers/expenseCategoryController');
 const paymentInvoiceController = require('@/controllers/erpControllers/paymentInvoiceController');
-const { fetchGoogleTrends } = require('../controllers/erpControllers/GoogleTrend');
+const fetchGoogleTrends = require('@/controllers/erpControllers/GoogleTrend');
 const settingsController = require('@/controllers/erpControllers/settingsController');
 const formController = require('@/controllers/erpControllers/FormController');
 
@@ -146,12 +146,12 @@ router.route('/supplier/filter').get(catchErrors(supplierController.filter));
 
 router.route('/Form/create').post(catchErrors(formController.create));
 router.route('/Form/read/:id').get(catchErrors(formController.read));
-router.route('/Form/update/:id').patch(catchErrors(formController.upda));
-router.route('/Form/delete/:id').delete(catchErrors(formController.delete));
-router.route('/Form/search').get(catchErrors(formController.search));
-router.route('/Form/list').get(catchErrors(formControllerr.list));
-router.route('/Form/filter').get(catchErrors(formController.filter));
-router.route('/Form/pdf/:id').get(catchErrors(orderFormController.generatePDF));
+// router.route('/Form/update/:id').patch(catchErrors(formController.upda));
+// router.route('/Form/delete/:id').delete(catchErrors(formController.delete));
+// router.route('/Form/search').get(catchErrors(formController.search));
+// router.route('/Form/list').get(catchErrors(formControllerr.list));
+// router.route('/Form/filter').get(catchErrors(formController.filter));
+// router.route('/Form/pdf/:id').get(catchErrors(orderFormController.generatePDF));
 
 // //_________________________________________________________________API for expenses_____________________
 
@@ -194,6 +194,6 @@ router.route('/settings/search').get(catchErrors(settingsController.search));
 router.route('/settings/list').get(catchErrors(settingsController.list));
 router.route('/settings/filter').get(catchErrors(settingsController.filter));
 
-router.get('/trends', fetchGoogleTrends);
+router.route('/trend').get(catchErrors(fetchGoogleTrends));
 
 module.exports = router;
