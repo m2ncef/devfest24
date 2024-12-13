@@ -22,7 +22,6 @@ const expenseCategoryController = require('@/controllers/erpControllers/expenseC
 const paymentInvoiceController = require('@/controllers/erpControllers/paymentInvoiceController');
 
 const settingsController = require('@/controllers/erpControllers/settingsController');
-const paymentController = require('@/backend/src/controllers/payment.controller');
 
 // //_______________________________ Admin management_______________________________
 
@@ -192,7 +191,4 @@ router.route('/trend/read/:id').get(catchErrors(trendController.read));
 router.route('/trend/update/:id').patch(catchErrors(trendController.update));
 router.route('/trend/delete/:id').delete(catchErrors(trendController.delete));
 router.route('/trend/search').get(catchErrors(trendController.search));
-
-router.route('/payment/create').post(catchErrors(paymentController.create));
-router.route('/payment/verify/:id').get(catchErrors(paymentController.verify));
 module.exports = router;

@@ -3,6 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const cookieParser = require('cookie-parser');
 require('dotenv').config({ path: '.variables.env' });
@@ -16,15 +17,19 @@ const erpDownloadRouter = require('./routes/erpRoutes/erpDownloadRouter');
 const errorHandlers = require('./handlers/errorHandlers');
 
 const { isValidAdminToken } = require('./controllers/erpControllers/authJwtController ');
+const { fetchGoogleTrends } = require('./controllers/erpControllers/trendsController');
+const axios = require('axios');
 
 // create our Express app
 const app = express();
+
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
 
 // Takes the raw requests and turns them into usable properties on req.body
 
 app.use(helmet());
 app.use(cookieParser());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -69,6 +74,8 @@ app.use(
   erpAuthRouter
 );
 
+app.post('/api/trends', fetchGoogleTrends);
+
 // app.use("/api", cors(), isValidAdminToken, erpApiRouter);
 
 app.use(
@@ -82,6 +89,15 @@ app.use(
 );
 
 app.use('/download', cors(), erpDownloadRouter);
+app.post('/ai', async (req, res) => {
+  const response = await axios.post(`${process.env.AI_SERVER_IP}/predict`, {
+    category: req.body.category,
+    datestart: req.body.datestart,
+    montestart: req.body.montestart,
+    monthend: req.body.monthend,
+  });
+  res.status(200).json({ success: true, data: response.data });
+});
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
