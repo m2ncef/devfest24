@@ -7,7 +7,7 @@ const fetchGoogleTrends = async (req, res) => {
     const apiUrl = `https://serpapi.com/search?engine=google_trends&api_key=${process.env.SERPAPI_KEY}`;
 
     const params = {
-      keyword: keyword || 'Technology',
+      q: keyword || 'Technology',
       category: category || '',
       location: location || '',
       time: time || 'now 7-d',
