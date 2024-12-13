@@ -73,6 +73,10 @@ app.use(
   }),
   erpAuthRouter
 );
+//testing route
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Server is working!' });
+});
 
 app.post('/api/trends', fetchGoogleTrends);
 

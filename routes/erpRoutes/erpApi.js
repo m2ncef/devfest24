@@ -20,7 +20,7 @@ const orderFormController = require('@/controllers/erpControllers/orderFormContr
 const expenseController = require('@/controllers/erpControllers/expenseController');
 const expenseCategoryController = require('@/controllers/erpControllers/expenseCategoryController');
 const paymentInvoiceController = require('@/controllers/erpControllers/paymentInvoiceController');
-
+const fetchGoogleTrends = require('@/controllers/erpControllers/GoogleTrend');
 const settingsController = require('@/controllers/erpControllers/settingsController');
 const formController = require('@/controllers/erpControllers/formController');
 
@@ -74,6 +74,15 @@ router.route('/employee/delete/:id').delete(catchErrors(employeeController.delet
 router.route('/employee/search').get(catchErrors(employeeController.search));
 router.route('/employee/list').get(catchErrors(employeeController.list));
 router.route('/employee/filter').get(catchErrors(employeeController.filter));
+// //_____________________________________ API for payment Form____________________
+
+router.route('/paymentForm/create').post(catchErrors(paymentInvoiceController.create));
+router.route('/paymentForm/read/:id').get(catchErrors(paymentInvoiceController.read));
+router.route('/paymentForm/update/:id').patch(catchErrors(paymentInvoiceController.update));
+router.route('/paymentForm/delete/:id').delete(catchErrors(paymentInvoiceController.delete));
+router.route('/paymentForm/search').get(catchErrors(paymentInvoiceController.search));
+router.route('/paymentForm/list').get(catchErrors(paymentInvoiceController.list));
+router.route('/paymentForm/filter').get(catchErrors(paymentInvoiceController.filter));
 
 // //_____________________________________ API for payment mode_____________________
 router.route('/paymentMode/create').post(catchErrors(paymentModeController.create));
@@ -135,15 +144,14 @@ router.route('/supplier/filter').get(catchErrors(supplierController.filter));
 
 // //_________________________________________ API for order Forms _____________________
 
-router.route('/orderForm/create').post(catchErrors(orderFormController.create));
-router.route('/orderForm/read/:id').get(catchErrors(orderFormController.read));
-router.route('/orderForm/update/:id').patch(catchErrors(orderFormController.update));
-router.route('/orderForm/delete/:id').delete(catchErrors(orderFormController.delete));
-router.route('/orderForm/search').get(catchErrors(orderFormController.search));
-router.route('/orderForm/list').get(catchErrors(orderFormController.list));
-router.route('/orderForm/filter').get(catchErrors(orderFormController.filter));
-
-router.route('/orderForm/pdf/:id').get(catchErrors(orderFormController.generatePDF));
+router.route('/Form/create').post(catchErrors(formController.create));
+router.route('/Form/read/:id').get(catchErrors(formController.read));
+// router.route('/Form/update/:id').patch(catchErrors(formController.upda));
+// router.route('/Form/delete/:id').delete(catchErrors(formController.delete));
+// router.route('/Form/search').get(catchErrors(formController.search));
+// router.route('/Form/list').get(catchErrors(formControllerr.list));
+// router.route('/Form/filter').get(catchErrors(formController.filter));
+// router.route('/Form/pdf/:id').get(catchErrors(orderFormController.generatePDF));
 
 // //_________________________________________________________________API for expenses_____________________
 
