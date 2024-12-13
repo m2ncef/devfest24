@@ -11,8 +11,7 @@ export default function DashboardLayout({ children }) {
         style={{
           padding: '30px 40px',
           margin: '70px auto',
-          width: '100%',
-          maxWidth: '1100px',
+          width: '90%',
         }}
       >
         {children}

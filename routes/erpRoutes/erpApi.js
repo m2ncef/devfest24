@@ -8,7 +8,7 @@ const router = express.Router();
 
 const adminController = require('@/controllers/erpControllers/adminController');
 const roleController = require('@/controllers/erpControllers/roleController');
-
+const trendController = require('@/controllers/erpControllers/trendController');
 const employeeController = require('@/controllers/erpControllers/employeeController');
 const paymentModeController = require('@/controllers/erpControllers/paymentModeController');
 const clientController = require('@/controllers/erpControllers/clientController');
@@ -22,6 +22,7 @@ const expenseCategoryController = require('@/controllers/erpControllers/expenseC
 const paymentInvoiceController = require('@/controllers/erpControllers/paymentInvoiceController');
 
 const settingsController = require('@/controllers/erpControllers/settingsController');
+const paymentController = require('@/backend/src/controllers/payment.controller');
 
 // //_______________________________ Admin management_______________________________
 
@@ -185,4 +186,13 @@ router.route('/settings/search').get(catchErrors(settingsController.search));
 router.route('/settings/list').get(catchErrors(settingsController.list));
 router.route('/settings/filter').get(catchErrors(settingsController.filter));
 
+router.route('/trend/list').get(catchErrors(trendController.list));
+router.route('/trend/create').post(catchErrors(trendController.create));
+router.route('/trend/read/:id').get(catchErrors(trendController.read));
+router.route('/trend/update/:id').patch(catchErrors(trendController.update));
+router.route('/trend/delete/:id').delete(catchErrors(trendController.delete));
+router.route('/trend/search').get(catchErrors(trendController.search));
+
+router.route('/payment/create').post(catchErrors(paymentController.create));
+router.route('/payment/verify/:id').get(catchErrors(paymentController.verify));
 module.exports = router;

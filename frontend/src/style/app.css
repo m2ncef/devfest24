@@ -1,0 +1,98 @@
+.credit-button-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.avatar-hover:hover {
+  transform: scale(1.05);
+  border-color: #52c41a !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.headerIcon {
+  transition: all 0.3s ease;
+}
+
+.headerIcon:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+.dashboard-card {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout Styles */
+.site-layout {
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+.site-layout-content {
+  padding: 24px;
+  margin-top: 64px;
+}
+
+.layout-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.with-side-panel {
+  max-width: 900px;
+}
+
+/* Card Styles */
+.settings-card {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.settings-card-title {
+  color: #22075e;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.settings-card-content {
+  text-align: center;
+}
+
+.settings-main-card {
+  min-height: 480px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.settings-side-card {
+  min-height: 280px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Whiteboxes */
+.whiteBox {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.whiteBox:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}

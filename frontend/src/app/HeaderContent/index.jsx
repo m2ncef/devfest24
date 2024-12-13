@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Menu, Dropdown } from 'antd';
+import { Avatar, Menu, Dropdown, Button, Space, Statistic } from 'antd';
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -8,6 +8,7 @@ import {
   LogoutOutlined,
   BellOutlined,
   UserOutlined,
+  WalletOutlined,
 } from '@ant-design/icons';
 import photo from '@/style/images/photo.png';
 import { logout } from '@/redux/auth/actions';
@@ -55,6 +56,13 @@ export default function HeaderContent() {
       <div>
         <Menu>
           <Menu.Item
+            icon={<WalletOutlined />}
+            key={`${uniqueId()}`}
+            onClick={() => history.push('/credit')}
+          >
+            Recharge Credit
+          </Menu.Item>
+          <Menu.Item
             icon={<LogoutOutlined />}
             key={`${uniqueId()}`}
             onClick={() => history.push('/logout')}
@@ -66,16 +74,75 @@ export default function HeaderContent() {
     </div>
   );
 
-  return (
-    <div className="headerIcon" style={{ position: 'absolute', right: 0, zIndex: '99' }}>
-      <Dropdown overlay={profileDropdown} trigger={['click']} placement="bottomRight">
-        <Avatar
-          style={{ cursor: 'pointer', border: '2px solid #808080' }}
-          className="last"
-          size="large"
-          icon={<UserOutlined />}
+  const creditButton = (
+    <Button
+      type="text"
+      onClick={() => history.push('/credit')}
+      style={{
+        height: '50px',
+        padding: '0 15px',
+        borderRadius: '8px',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backdropFilter: 'blur(8px)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        transition: 'all 0.3s ease',
+      }}
+      className="credit-button-hover"
+    >
+      <Space>
+        <WalletOutlined style={{ fontSize: '20px', color: '#52c41a' }} />
+        <Statistic
+          value={userData?.credit || 0}
+          suffix="DZD"
+          valueStyle={{
+            fontSize: '16px',
+            color: '#52c41a',
+            fontWeight: 'bold',
+          }}
+          prefix={<small style={{ fontSize: '12px', color: '#8c8c8c' }}>Balance:</small>}
         />
-      </Dropdown>
+      </Space>
+    </Button>
+  );
+
+  return (
+    <div
+      className="headerIcon"
+      style={{
+        position: 'fixed',
+        right: 0,
+        top: 0,
+        zIndex: '99',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backdropFilter: 'blur(8px)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        width: '100%',
+        height: '80px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 30px',
+      }}
+    >
+      <Space size={20} align="center">
+        {creditButton}
+        <Dropdown overlay={profileDropdown} trigger={['click']} placement="bottomRight">
+          <Avatar
+            style={{
+              cursor: 'pointer',
+              border: '2px solid #f0f0f0',
+              backgroundColor: '#fff',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+              transition: 'all 0.3s ease',
+            }}
+            className="avatar-hover"
+            size={45}
+            icon={<UserOutlined />}
+          />
+        </Dropdown>
+      </Space>
     </div>
   );
 }

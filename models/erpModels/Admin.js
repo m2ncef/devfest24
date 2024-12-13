@@ -33,13 +33,21 @@ const adminSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  role: { type: mongoose.Schema.ObjectId, ref: 'Role', autopopulate: true },
+  role: {
+    type: String,
+    enum: ['admin', 'superadmin'],
+    default: 'admin',
+  },
   hasCustomPermissions: {
     type: Boolean,
     default: false,
   },
   permissions: [{ type: mongoose.Schema.ObjectId, ref: 'Permission' }],
   isLoggedIn: { type: Boolean },
+  credit: {
+    type: Number,
+    default: 0,
+  },
 });
 
 adminSchema.plugin(require('mongoose-autopopulate'));

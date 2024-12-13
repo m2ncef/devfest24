@@ -16,7 +16,7 @@ export default function LoginForm() {
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="admin@demo.com"
+          placeholder="gdgc@gmail.com"
           autoComplete="email"
           size="large"
         />
@@ -32,18 +32,9 @@ export default function LoginForm() {
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder="admin123"
+          placeholder="gdgc123"
           size="large"
         />
-      </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <a className="login-form-forgot" href="">
-          Forgot password
-        </a>
       </Form.Item>
     </>
   );
