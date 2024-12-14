@@ -108,29 +108,25 @@ const upload = multer({
   },
 });
 
-app.post(
-  '/api/imageCaptionAndTags',
-  upload.single('image'),
-  isValidAdminToken,
-  async (req, res) => {
-    try {
-      const { path } = req.file;
-      console.log(`Processing image: ${path}`);
+app.post('/api/imageCaptionAndTags', upload.single('image'), async (req, res) => {
+  console.log('hihihi');
 
-      const result = await generateImageContent(path);
-      const parsedResult = JSON.parse(result);
+  try {
+    const { path } = req.file;
 
-      return res.status(200).json(parsedResult);
-    } catch (error) {
-      console.error('Error processing image:', error);
-      return res.status(500).json({
-        success: false,
-        message: 'Error processing image',
-        error: error.message || 'Unknown error occurred',
-      });
-    }
+    const result = await generateImageContent(path);
+    const parsedResult = JSON.parse(result);
+
+    return res.status(200).json(parsedResult);
+  } catch (error) {
+    console.error('Error processing image:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error processing image',
+      error: error.message || 'Unknown error occurred',
+    });
   }
-);
+});
 
 app.post('/api/recommendations', async (req, res) => {
   try {

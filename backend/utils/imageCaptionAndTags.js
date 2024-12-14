@@ -3,7 +3,6 @@ const fs = require('fs/promises');
 const genAI = new GoogleGenerativeAI('AIzaSyAv1l7-z2-KoQnJQ9HC-n1r6KW8jfOTASs');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
-// Helper function to convert image file to GenerativePart
 async function fileToGenerativePart(path, mimeType) {
   const data = await fs.readFile(path);
   return {
