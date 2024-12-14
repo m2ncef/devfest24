@@ -226,17 +226,20 @@ function AiCaption() {
       formData.append('image', file);
 
       const response = await axios.post('imageCaptionAndTags', formData);
-      console.log(response);
 
-      if (response.success) {
+      if (response.data.success) {
+        // Clean up the response string and parse it
+        const cleanedResponse = response.data.data.replace(/```json\n|\n```/g, '');
+        const parsedData = JSON.parse(cleanedResponse);
+
         const newGeneration = {
           id: Date.now(),
           image: URL.createObjectURL(file),
-          caption: response.data.caption,
-          title: response.data.instagram_post.title,
-          description: response.data.instagram_post.description,
-          hashtags: response.data.instagram_post.hashtags,
-          techRelevance: response.data.tech_relevance,
+          caption: parsedData.caption,
+          title: parsedData.instagram_post.title,
+          description: parsedData.instagram_post.description,
+          hashtags: parsedData.instagram_post.hashtags,
+          techRelevance: parsedData.tech_relevance,
           timestamp: new Date().toISOString(),
           originalFile: file,
         };
@@ -252,6 +255,8 @@ function AiCaption() {
         message.success('Content generated successfully!');
         form.resetFields();
         setFileList([]);
+      } else {
+        message.error(response.data.message || 'Failed to generate content. Please try again.');
       }
     } catch (error) {
       console.error('Generation failed:', error);

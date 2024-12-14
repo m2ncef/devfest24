@@ -655,20 +655,12 @@ async function generateImageContent(imagePath) {
       throw new Error(result.error.message || 'Unknown error from AI model');
     }
 
-    const responseText = result.response.text();
+    const responseText = await result.response.text();
 
-    try {
-      return JSON.parse(responseText);
-    } catch (parseError) {
-      console.error('Error parsing AI response:', parseError);
-      return {
-        success: false,
-        message: 'Failed to parse AI response',
-        error: {
-          details: responseText,
-        },
-      };
-    }
+    return {
+      success: true,
+      data: responseText, // Return the response as a string
+    };
   } catch (error) {
     if (error.status === 429) {
       console.error('Quota exceeded:', error);

@@ -101,14 +101,12 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-      return cb(new Error('Only image files are allowed!'), false);
-    }
     cb(null, true);
   },
 });
 
 app.post('/api/imageCaptionAndTags', upload.single('image'), async (req, res) => {
+  console.log('hi');
   try {
     const { path } = req.file;
 
