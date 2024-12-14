@@ -16,6 +16,7 @@ const Settings = lazy(() => import('@/pages/Settings/Settings'));
 const PaymentMode = lazy(() => import('@/pages/PaymentMode'));
 const Role = lazy(() => import('@/pages/Role'));
 const Trends = lazy(() => import('@/pages/Trends'));
+const AiCaption = lazy(() => import('@/pages/AiCaption'));
 const Login = lazy(() => import('@/pages/Login'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Logout = lazy(() => import('@/pages/Logout'));
@@ -49,6 +50,7 @@ export default function AppRouter() {
           <PrivateRoute exact path="/payment/mode" component={PaymentMode} />
           <PrivateRoute exact path="/role" component={Role} />
           <PrivateRoute exact path="/trends" component={Trends} />
+          <PrivateRoute exact path="/ai-caption" component={AiCaption} />
           <PrivateRoute exact path="/products" component={Products} />
           <PrivateRoute exact path="/orders" component={Orders} />
           <PrivateRoute exact path="/inventory" component={Inventory} />

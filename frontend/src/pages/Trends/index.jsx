@@ -391,7 +391,8 @@ function Trends() {
             height: '60px',
             background: 'linear-gradient(45deg, #1a1c1e, #2d3436)',
             padding: '20px',
-            margin: '-20px -24px 0px',
+            margin: '-20px -24px 0',
+            marginBottom: '-20px',
             borderRadius: '8px 8px 0 0',
             color: 'white',
             position: 'relative',
@@ -436,6 +437,7 @@ function Trends() {
         padding: '24px',
         maxHeight: '80vh',
         overflow: 'auto',
+        marginTop: 0,
       }}
     >
       {loading ? (

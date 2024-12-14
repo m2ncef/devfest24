@@ -5,6 +5,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 require('dotenv').config({ path: '.variables.env' });
+const multer = require('multer');
+const { generateImageContent } = require('./utils/imageCaptionAndTags');
+const fs = require('fs').promises;
 
 const erpApiRouter = require('./routes/erpRoutes/erpApi');
 const erpAuthRouter = require('./routes/erpRoutes/erpAuth');
@@ -75,6 +78,59 @@ app.use('/api', erpAuthRouter);
 app.post('/api/trends', fetchGoogleTrends);
 app.use('/api', isValidAdminToken, erpApiRouter);
 app.use('/download', erpDownloadRouter);
+
+const ensureUploadsDir = async () => {
+  try {
+    await fs.access('uploads');
+  } catch {
+    await fs.mkdir('uploads');
+  }
+};
+ensureUploadsDir();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + '-' + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+      return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+  },
+});
+
+app.post(
+  '/api/imageCaptionAndTags',
+  upload.single('image'),
+  isValidAdminToken,
+  async (req, res) => {
+    try {
+      const { path } = req.file;
+      console.log(`Processing image: ${path}`);
+
+      const result = await generateImageContent(path);
+      const parsedResult = JSON.parse(result);
+
+      return res.status(200).json(parsedResult);
+    } catch (error) {
+      console.error('Error processing image:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Error processing image',
+        error: error.message || 'Unknown error occurred',
+      });
+    }
+  }
+);
 
 app.post('/api/recommendations', async (req, res) => {
   try {

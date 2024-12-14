@@ -27,6 +27,8 @@ import {
   ProjectOutlined,
   LineChartOutlined,
   CheckCircleOutlined,
+  CameraOutlined,
+  RobotOutlined,
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -132,6 +134,10 @@ export default function Navigation() {
       <Menu.Item key="trends" icon={<LineChartOutlined />}>
         <Link to="/trends" />
         Trends
+      </Menu.Item>
+      <Menu.Item key="ai-caption" icon={<CameraOutlined />}>
+        <Link to="/ai-caption" />
+        AI Caption Generator
       </Menu.Item>
     </>
   );
