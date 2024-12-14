@@ -157,7 +157,7 @@ function AiCaption() {
               color="blue"
               key={tag}
               style={{ cursor: 'pointer' }}
-              onClick={() => navigator.clipboard.writeText(`#${tag}`)}
+              onClick={() => navigator.clipboard.writeText(`${tag}`)}
             >
               #{tag}
             </Tag>
