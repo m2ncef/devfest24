@@ -1,6 +1,6 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const fs = require('fs/promises');
-const genAI = new GoogleGenerativeAI('AIzaSyAv1l7-z2-KoQnJQ9HC-n1r6KW8jfOTASs');
+const genAI = new GoogleGenerativeAI('AIzaSyD7ot3KM8E2rw9_7YcRSGQrTNwftHUQQiU');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
 async function fileToGenerativePart(path, mimeType) {
@@ -630,8 +630,6 @@ async function generateImageContent(imagePath) {
       },
     };
     const trends = techData.data.things_to_know.buttons.map((b) => b.text).join(', ');
-    console.log(trends);
-
     const imagePart = await fileToGenerativePart(imagePath, 'image/jpeg');
     const prompt = `
         Analyze this image and provide the following in JSON format:
@@ -651,6 +649,12 @@ async function generateImageContent(imagePath) {
         Ensure hashtags are relevant and trending.`;
 
     const result = await model.generateContent([imagePart, prompt]);
+    console.log(result);
+
+    if (result.error) {
+      throw new Error(result.error.message || 'Unknown error from AI model');
+    }
+
     const responseText = result.response.text();
 
     try {
@@ -658,15 +662,31 @@ async function generateImageContent(imagePath) {
     } catch (parseError) {
       console.error('Error parsing AI response:', parseError);
       return {
-        error: 'Failed to parse AI response',
-        details: responseText,
+        success: false,
+        message: 'Failed to parse AI response',
+        error: {
+          details: responseText,
+        },
       };
     }
   } catch (error) {
+    if (error.status === 429) {
+      console.error('Quota exceeded:', error);
+      return {
+        success: false,
+        message: 'Quota exceeded',
+        error: {
+          details: 'Too many requests to the AI model. Please try again later.',
+        },
+      };
+    }
     console.error('Error:', error);
     return {
-      error: error.message,
-      details: 'Failed to process image or generate content',
+      success: false,
+      message: 'Failed to process image or generate content',
+      error: {
+        details: error.message,
+      },
     };
   }
 }

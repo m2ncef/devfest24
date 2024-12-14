@@ -1,6 +1,6 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const genAI = new GoogleGenerativeAI('AIzaSyAv1l7-z2-KoQnJQ9HC-n1r6KW8jfOTASs');
+const genAI = new GoogleGenerativeAI('AIzaSyD7ot3KM8E2rw9_7YcRSGQrTNwftHUQQiU');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
 async function analyzeBusinessWithTechTrends(business_type) {

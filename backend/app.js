@@ -109,21 +109,28 @@ const upload = multer({
 });
 
 app.post('/api/imageCaptionAndTags', upload.single('image'), async (req, res) => {
-  console.log('hihihi');
-
   try {
     const { path } = req.file;
 
     const result = await generateImageContent(path);
-    const parsedResult = JSON.parse(result);
 
-    return res.status(200).json(parsedResult);
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: result.message || 'Error processing image',
+        error: result.error || {},
+      });
+    }
+
+    return res.status(200).json(result);
   } catch (error) {
     console.error('Error processing image:', error);
     return res.status(500).json({
       success: false,
       message: 'Error processing image',
-      error: error.message || 'Unknown error occurred',
+      error: {
+        details: error.message || 'Unknown error occurred',
+      },
     });
   }
 });
