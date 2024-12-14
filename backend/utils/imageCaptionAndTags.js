@@ -1,7 +1,6 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { GEMINI_API_KEY } = process.env;
 const fs = require('fs/promises');
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI('AIzaSyAv1l7-z2-KoQnJQ9HC-n1r6KW8jfOTASs');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
 // Helper function to convert image file to GenerativePart

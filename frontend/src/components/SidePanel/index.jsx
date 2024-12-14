@@ -58,16 +58,16 @@ export default function SidePanel({ config, topContent, bottomContent, fixHeader
     <Sider
       trigger={<MenuOutlined className="trigger" />}
       width={400}
-      collapsible
       collapsed={isSidePanelClose}
       collapsedWidth={'0px'}
       onCollapse={collapsePanel}
       className="sidePanel"
       zeroWidthTriggerStyle={{
-        right: '-50px',
+        right: '-45px',
         top: '15px',
       }}
       style={{
+        top: '80px',
         left: leftSider,
       }}
     >

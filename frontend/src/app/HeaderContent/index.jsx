@@ -1,148 +1,122 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Menu, Dropdown, Button, Space, Statistic } from 'antd';
-import {
-  AppstoreOutlined,
-  SettingOutlined,
-  MailOutlined,
-  LogoutOutlined,
-  BellOutlined,
-  UserOutlined,
-  WalletOutlined,
-} from '@ant-design/icons';
-import photo from '@/style/images/photo.png';
+import React, { useState, useEffect } from 'react';
+import { Avatar, Button, Dropdown, Layout, Menu, Space, Typography, Badge } from 'antd';
+import { Link } from 'react-router-dom';
+import { UserOutlined, LogoutOutlined, WalletOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/auth/actions';
-import history from '@/utils/history';
-import uniqueId from '@/utils/uinqueId';
 import { request } from '@/request';
 
+const { Header } = Layout;
+const { Text } = Typography;
+
 export default function HeaderContent() {
+  const [userData, setUserData] = useState({});
   const dispatch = useDispatch();
-  const { SubMenu } = Menu;
-  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      try {
-        const { result, success } = await request.get({ entity: 'admin/profile' });
-        if (success) {
-          setUserData(result);
-        }
-      } catch (error) {
-        console.error('Failed to fetch user profile:', error);
+      const { result, success } = await request.get({ entity: 'admin/profile' });
+      if (success) {
+        setUserData(result);
       }
     };
-
     fetchUserProfile();
   }, []);
 
-  const profileDropdown = (
-    <div className="profileDropdown whiteBox shadow" style={{ minWidth: '200px' }}>
-      <div className="pad15">
-        <Avatar
-          size="large"
-          className="last"
-          src={userData?.photo ? '/' + userData.photo : photo}
-          style={{ float: 'left' }}
-        />
-        <div className="info">
-          <p className="strong">
-            {userData ? `${userData.name} ${userData.surname}` : 'Loading...'}
-          </p>
-          <p>{userData?.email || 'Loading...'}</p>
-        </div>
-      </div>
-      <div className="line"></div>
-      <div>
-        <Menu>
-          <Menu.Item
-            icon={<WalletOutlined />}
-            key={`${uniqueId()}`}
-            onClick={() => history.push('/credit')}
-          >
-            Recharge Credit
-          </Menu.Item>
-          <Menu.Item
-            icon={<LogoutOutlined />}
-            key={`${uniqueId()}`}
-            onClick={() => history.push('/logout')}
-          >
-            logout
-          </Menu.Item>
-        </Menu>
-      </div>
-    </div>
-  );
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="profile" icon={<UserOutlined />}>
+        <Text strong>
+          {userData?.name} {userData?.surname}
+        </Text>
+      </Menu.Item>
 
-  const creditButton = (
-    <Button
-      type="text"
-      onClick={() => history.push('/credit')}
-      style={{
-        height: '50px',
-        padding: '0 15px',
-        borderRadius: '8px',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        backdropFilter: 'blur(8px)',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-        display: 'flex',
-        alignItems: 'center',
-        transition: 'all 0.3s ease',
-      }}
-      className="credit-button-hover"
-    >
-      <Space>
-        <WalletOutlined style={{ fontSize: '20px', color: '#52c41a' }} />
-        <Statistic
-          value={userData?.credit || 0}
-          suffix="DZD"
-          valueStyle={{
-            fontSize: '16px',
-            color: '#52c41a',
-            fontWeight: 'bold',
-          }}
-          prefix={<small style={{ fontSize: '12px', color: '#8c8c8c' }}>Balance:</small>}
-        />
-      </Space>
-    </Button>
+      <Menu.Item key="credit" icon={<WalletOutlined />}>
+        <Link to="/credit">
+          <Text>Credits: {userData?.credit ?? 0}</Text>
+        </Link>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
+        Logout
+      </Menu.Item>
+    </Menu>
   );
 
   return (
-    <div
-      className="headerIcon"
-      style={{
-        position: 'fixed',
-        right: 0,
-        top: 0,
-        zIndex: '99',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        backdropFilter: 'blur(8px)',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-        width: '100%',
-        height: '80px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 30px',
-      }}
+    <Header
+      className="site-layout-background"
+      style={{ padding: 0, background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
     >
-      <Space size={20} align="center">
-        {creditButton}
-        <Dropdown overlay={profileDropdown} trigger={['click']} placement="bottomRight">
-          <Avatar
-            style={{
-              cursor: 'pointer',
-              border: '2px solid #f0f0f0',
-              backgroundColor: '#fff',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-              transition: 'all 0.3s ease',
-            }}
-            className="avatar-hover"
-            size={45}
-            icon={<UserOutlined />}
-          />
-        </Dropdown>
-      </Space>
-    </div>
+      <div style={{ float: 'right', padding: '0 24px' }}>
+        <Space size="large" align="center">
+          {userData?.role !== 'superadmin' && (
+            <Link to="/credit">
+              <Button
+                type="default"
+                icon={<WalletOutlined />}
+                className="credit-button-hover"
+                style={{
+                  height: '40px',
+                  borderRadius: '20px',
+                  background: '#f6f8fa',
+                  border: '1px solid #e1e4e8',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Badge
+                  count={userData?.credit ?? 0}
+                  style={{
+                    backgroundColor: '#52c41a',
+                    boxShadow: '0 2px 6px rgba(82,196,26,0.4)',
+                  }}
+                  overflowCount={9999}
+                  showZero={true}
+                ></Badge>
+                <Text strong style={{ marginRight: '8px' }}>
+                  Credits
+                </Text>
+              </Button>
+            </Link>
+          )}
+
+          <Dropdown overlay={userMenu} trigger={['click']}>
+            <Space className="user-dropdown" style={{ cursor: 'pointer' }}>
+              <Avatar
+                style={{
+                  backgroundColor: '#1890ff',
+                  verticalAlign: 'middle',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                }}
+                className="avatar-hover"
+                size="large"
+              >
+                {userData?.name?.charAt(0)?.toUpperCase()}
+              </Avatar>
+              <Space direction="vertical" size={0}>
+                <Text
+                  strong
+                  style={{
+                    maxWidth: '150px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {userData?.email}
+                </Text>
+              </Space>
+            </Space>
+          </Dropdown>
+        </Space>
+      </div>
+    </Header>
   );
 }

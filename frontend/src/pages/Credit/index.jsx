@@ -12,14 +12,21 @@ import {
   Col,
   Image,
   Button,
+  Typography,
 } from 'antd';
-import { WalletOutlined, CreditCardOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import {
+  WalletOutlined,
+  CreditCardOutlined,
+  CheckCircleOutlined,
+  SafetyOutlined,
+  LockOutlined,
+} from '@ant-design/icons';
 import CrudLayout from '@/layout/CrudLayout';
 import ChargilyPayButton from '@/components/Payment/ChargilyPayButton';
 import { request } from '@/request';
-// import creditCardIllustration from '/dist/svg/illustrations/credit-card.svg';
 
 const { Step } = Steps;
+const { Title, Text } = Typography;
 
 export default function Credit() {
   const [form] = Form.useForm();
@@ -162,13 +169,51 @@ export default function Credit() {
           <Col xs={24} md={12}>
             {currentStep === 0 ? renderAmountForm() : renderPaymentConfirmation()}
           </Col>
-          <Col xs={24} md={12} style={{ textAlign: 'center' }}>
-            <Image
-              //   src={creditCardIllustration}
-              alt="Credit Card"
-              style={{ maxWidth: '100%', height: 'auto' }}
-              preview={false}
-            />
+          <Col xs={24} md={12} style={{ textAlign: 'center', padding: '24px' }}>
+            <div style={{ marginBottom: '24px' }}>
+              <Title
+                level={3}
+                style={{
+                  background: 'linear-gradient(45deg, #8B5CF6, #1F2937)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Secure Payment Processing
+              </Title>
+              <Text style={{ fontSize: '16px', color: '#6B7280' }}>
+                Recharge your account safely and instantly
+              </Text>
+            </div>
+
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              <Card
+                style={{
+                  background: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+                  borderRadius: '16px',
+                  border: 'none',
+                }}
+              >
+                <Space align="center">
+                  <LockOutlined style={{ fontSize: '24px', color: '#fff' }} />
+                  <Text style={{ color: '#fff', fontSize: '16px' }}>256-bit SSL Encryption</Text>
+                </Space>
+              </Card>
+
+              <Card
+                style={{
+                  background: '#F3F4F6',
+                  borderRadius: '16px',
+                }}
+              >
+                <Space align="center">
+                  <SafetyOutlined style={{ fontSize: '24px', color: '#4F46E5' }} />
+                  <Text style={{ color: '#374151', fontSize: '16px' }}>
+                    100% Secure Transactions
+                  </Text>
+                </Space>
+              </Card>
+            </Space>
           </Col>
         </Row>
       </Card>

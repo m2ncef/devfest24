@@ -21,6 +21,15 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Logout = lazy(() => import('@/pages/Logout'));
 const Credit = lazy(() => import('@/pages/Credit'));
 const PaymentReturn = lazy(() => import('@/pages/Payment/PaymentReturn'));
+const Products = lazy(() => import('@/pages/Products'));
+const Orders = lazy(() => import('@/pages/Orders'));
+const Inventory = lazy(() => import('@/pages/Inventory'));
+const MyWorks = lazy(() => import('@/pages/MyWorks'));
+const Projects = lazy(() => import('@/pages/Projects'));
+const UploadWork = lazy(() => import('@/pages/UploadWork'));
+const ActiveProjects = lazy(() => import('@/pages/Projects/ActiveProjects'));
+const CompletedProjects = lazy(() => import('@/pages/Projects/CompletedProjects'));
+const ArchivedProjects = lazy(() => import('@/pages/Projects/ArchivedProjects'));
 
 export default function AppRouter() {
   const location = useLocation();
@@ -40,10 +49,19 @@ export default function AppRouter() {
           <PrivateRoute exact path="/payment/mode" component={PaymentMode} />
           <PrivateRoute exact path="/role" component={Role} />
           <PrivateRoute exact path="/trends" component={Trends} />
+          <PrivateRoute exact path="/products" component={Products} />
+          <PrivateRoute exact path="/orders" component={Orders} />
+          <PrivateRoute exact path="/inventory" component={Inventory} />
           <PublicRoute exact path="/login" component={Login} />
           <Route exact path="/logout" component={Logout} />
           <PrivateRoute exact path="/credit" component={Credit} />
           <Route exact path="/payment/return" component={PaymentReturn} />
+          <PrivateRoute exact path="/my-works" component={MyWorks} />
+          <PrivateRoute exact path="/upload-work" component={UploadWork} />
+          <PrivateRoute exact path="/projects" component={Projects} />
+          <PrivateRoute exact path="/active-projects" component={ActiveProjects} />
+          <PrivateRoute exact path="/completed-projects" component={CompletedProjects} />
+          <PrivateRoute exact path="/archived-projects" component={ArchivedProjects} />
           <Route path="*" component={NotFound} />
         </Switch>
       </AnimatePresence>

@@ -28,6 +28,31 @@ export const login =
     }
   };
 
+export const signup =
+  ({ signupData }) =>
+  async (dispatch) => {
+    dispatch({
+      type: actionTypes.LOADING_REQUEST,
+      payload: { loading: true },
+    });
+    const data = await authService.signup({ signupData });
+
+    if (data.success === true) {
+      window.localStorage.setItem('isLoggedIn', true);
+      window.localStorage.setItem('auth', JSON.stringify(data.result.admin));
+      dispatch({
+        type: actionTypes.LOGIN_SUCCESS,
+        payload: data.result.admin,
+      });
+      history.push('/');
+    } else {
+      dispatch({
+        type: actionTypes.FAILED_REQUEST,
+        payload: data,
+      });
+    }
+  };
+
 export const logout = () => async (dispatch) => {
   authService.logout();
   dispatch({

@@ -6,7 +6,7 @@ import AdminForm from '@/forms/AdminForm';
 export default function Admin() {
   const entity = 'admin';
   const searchConfig = {
-    displayLabels: ['name', 'surname'],
+    displayLabels: ['name', 'surname', 'email'],
     searchFields: 'email,name,surname',
     outputValue: '_id',
   };
@@ -19,14 +19,47 @@ export default function Admin() {
     { title: 'Name', dataIndex: 'name' },
     { title: 'Surname', dataIndex: 'surname' },
     { title: 'Email', dataIndex: 'email' },
-    { title: "Role d'utilisateur", dataIndex: 'role.displayName' },
+    {
+      title: "Role d'utilisateur",
+      dataIndex: 'role',
+      render: (role) => (role === 'superadmin' ? 'Superadmin' : 'Admin'),
+    },
+    {
+      title: 'Account Type',
+      dataIndex: 'accountType',
+      render: (type) => type?.charAt(0).toUpperCase() + type?.slice(1) || 'Default',
+    },
+    {
+      title: 'Credit',
+      dataIndex: 'credit',
+      render: (credit) => credit || 0,
+    },
+    {
+      title: 'Status',
+      dataIndex: 'enabled',
+      render: (enabled) => (enabled ? 'Active' : 'Disabled'),
+    },
   ];
 
   const dataTableColumns = [
     { title: 'Name', dataIndex: 'name' },
     { title: 'Surname', dataIndex: 'surname' },
     { title: 'Email', dataIndex: 'email' },
-    { title: "Role d'utilisateur", dataIndex: ['role', 'displayName'] },
+    {
+      title: "Role d'utilisateur",
+      dataIndex: 'role',
+      render: (role) => (role === 'superadmin' ? 'Superadmin' : 'Admin'),
+    },
+    {
+      title: 'Account Type',
+      dataIndex: 'accountType',
+      render: (type) => type?.charAt(0).toUpperCase() + type?.slice(1) || 'Default',
+    },
+    {
+      title: 'Credit',
+      dataIndex: 'credit',
+      render: (credit) => credit || 0,
+    },
   ];
   const ADD_NEW_ENTITY = 'Add new admin';
   const DATATABLE_TITLE = 'Admins List';
